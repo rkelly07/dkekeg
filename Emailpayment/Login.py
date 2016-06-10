@@ -1,12 +1,31 @@
-from requests import session
 
-payload = {
-    'action': 'login',
-    'username': "mikedelaus@gmail.com",
-    'password': "quechee27"
-}
+import gmail
+import time
 
-with session() as c:
-    c.post('https://api.venmo.com/v1/oauth/authorize?client_id=2899&scope=access_payment_history', data=payload)
-    response = c.get('https://venmo.com/MikeDeLaus')
-    print(response.text)
+from gmail import Gmail
+
+
+# play with your gmail...
+while True:
+    charges = {}
+        g = Gmail()
+        g.login("mikedelaus@gmail.com", "quechee27")
+        payments = g.inbox().mail(fr="kegdke@gmail.com")
+        
+        i = 0
+        while i < len(payments):
+            
+            payments[i].fetch()
+                message =  payments[i].subject
+                name = message.split(" p")[0]
+                amount = float(message.split("$")[1])
+                if name in charges:
+                    amount = charges[name] + amount
+                charges[name] = amount
+                i+=1
+    print charges
+        time.sleep(60)
+
+
+
+g.logout()
