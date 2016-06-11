@@ -33,6 +33,15 @@ charges = {}
 #can use this if we only want to check most recent emails
 #then = datetime.datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
 
+'''
+
+
+Make benefits_on true to provide benefits to DKEggertor founders
+
+
+'''
+benefits_on = False
+
 while True:
     g = Gmail()
     g.login("mikedelaus@gmail.com", "quechee27")
@@ -74,6 +83,12 @@ while True:
                 #This check is only for when I (Mike DeLaus) pay from the my venmo account as it is the same email we use for DKE Keg
                 if name != "You":
                     charges[name] = amount
+
+                #Provides benefits for the founding members of DKEggerator
+                founders = ["Michael DeLaus", "Ryan Kelly", "Mitch Maisel"]
+                for name in founders:
+                    if benefits_on == True:
+                        charges[name] = 999999999999
         i+=1
     print charges
 
