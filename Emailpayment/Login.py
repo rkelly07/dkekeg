@@ -44,7 +44,7 @@ benefits_on = False
 
 while True:
     g = Gmail()
-    g.login("mikedelaus@gmail.com", "quechee27")
+    g.login("kegdke@gmail.com", "phiyale1844")
     newMail = g.inbox().mail(fr="venmo@venmo.com")
 
     #Filter venmo emails that are payments emails from venmo
