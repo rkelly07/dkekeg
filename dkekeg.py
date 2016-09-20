@@ -7,6 +7,7 @@ import signal
 import DBAccessor
 import Login 
 from Login import findPayments
+from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2
 
 continue_reading = True
 current_uid = "0"
@@ -25,11 +26,14 @@ signal.signal(signal.SIGINT, end_read)
 # Create an object of the class MFRC522
 MIFAREReader = MFRC522.MFRC522()
 
-DBAccessor = DBAccessor()
+dbaccessor = DBAccessor.DBAccessor()
 
 # Welcome message
 print "Welcome to the MFRC522 data read example"
 print "Press Ctrl-C to stop."
+
+lcd_string(" Natural Light ",LCD_LINE_1)
+lcd_string("               ",LCD_LINE_2)
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -48,7 +52,7 @@ while continue_reading:
     if status == MIFAREReader.MI_OK:
         #convert uid to standard string representation
         str_uid = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
-        
+        lcd_string(str_uid,LCD_LINE_2)
         #if user is already logged in, log them out 
         if str_uid == current_uid:
             print "Logged Out"
@@ -64,12 +68,14 @@ while continue_reading:
             """
             balances = findPayments("kegdke@gmail.com", "phiyale1844")
             # login to the database
-            currentName = DBAccessor.getName(current_uid)
-            currentBalance = DBAccessor.getBalance(current_uid)
+            currentName = dbaccessor.getName(current_uid)
+            currentBalance = dbaccessor.getBalance(current_uid)
             # TODO MAISEL CODE
 
 
 
         # Print UID
         print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+
+lcd_byte(0x01, LCD_CMD)
         
