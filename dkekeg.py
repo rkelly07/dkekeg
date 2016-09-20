@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 import MFRC522
 import signal
 import DBAccessor
+import Login 
+from Login import findPayments
 
 continue_reading = True
 current_uid = "0"
@@ -60,6 +62,7 @@ while continue_reading:
             TODO MIKE
 
             """
+            balances = findPayments("kegdke@gmail.com", "phiyale1844")
             # login to the database
             currentName = DBAccessor.getName(current_uid)
             currentBalance = DBAccessor.getBalance(current_uid)

@@ -21,30 +21,33 @@ def isKegEmail(email):
     value = False
     email.fetch()
     body = email.body
-    if "DKE Keg" in body:
+    if "thomaslynn" in body:
         value = True
     return value
 
 
-# Main Part, use Gmail to find venmo balances
-IDs = []
-charges = {}
+def findPayments(username, password):
 
-#can use this if we only want to check most recent emails
-#then = datetime.datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+    # Main Part, use Gmail to find venmo balances
+    file = open('recent.txt', 'r')
+    most_recent = file.read()
+    file.close()
+    IDs = [0,most_recent]
+    charges = {}
 
-'''
+    #can use this if we only want to check most recent emails
+    #then = datetime.datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+
+    '''
 
 
-Make benefits_on true to provide benefits to DKEggertor founders
+    Make benefits_on true to provide benefits to DKEggertor founders
 
 
-'''
-benefits_on = False
-
-while True:
+    '''
+    benefits_on = False
     g = Gmail()
-    g.login("kegdke@gmail.com", "phiyale1844")
+    g.login(username, password)
     newMail = g.inbox().mail(fr="venmo@venmo.com")
 
     #Filter venmo emails that are payments emails from venmo
@@ -58,13 +61,11 @@ while True:
     #Iterate through payment emails to find balances
     i = 0
     while i < len(payments):
-
         #Check if the ID number of the email has already been checked
         #as this prevents checking emails twice and incorrectly calculating balances
         if payments[i].uid not in IDs:
-
-            #Check if email is a payment to DKE Keg  
-            if isKegEmail(payments[i]): 
+            #Check if email is a payment to DKE Keg 
+            if isKegEmail(payments[i]) and int(payments[i].uid) >= int(most_recent)+1:
 
                 #Seperate out the subject of the email to find Name and Amount that was paid 
                 IDs.append(payments[i].uid) 
@@ -89,11 +90,16 @@ while True:
                 for name in founders:
                     if benefits_on == True:
                         charges[name] = 999999999999
+                file = open('recent.txt', 'w')
+                most_recent = payments[i].uid
+                file.write(str(most_recent))
+                file.close()
         i+=1
-    print charges
+    return charges
 
     #Sleep the program so we don't constantly check, can probably find better way to do this
-    time.sleep(60)
+    #time.sleep(60)
 
     #Logout of email so next check uses a refreshed inbox
     g.logout()
+    
