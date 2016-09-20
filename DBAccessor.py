@@ -44,6 +44,18 @@ class DBAccessor:
 		self.conn.commit()
 
 	"""
+	Get the kerberos of the user with a specified name
+	@param string name
+	@return string kerberos
+	"""
+	def getKerberos(name):
+		t = (name)
+		name_statement = "SELECT name FROM Users WHERE name=?"
+		self.c.execute(name_statement,t)
+		kerberos = self.c.fetchone()
+		return kerberos
+
+	"""
 	Save the changes and close the current connection
 	"""
 	def closeConnection():

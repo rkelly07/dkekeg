@@ -2,6 +2,7 @@
 import gmail
 import time
 import datetime
+import DBAccessor
 
 from gmail import Gmail
 
@@ -103,4 +104,20 @@ def findPayments(username, password):
     #Logout of email so next check uses a refreshed inbox
     g.logout()
 #Implement Main file to run this funciton
-    
+
+def main():
+    dbaccessor = DBAccessor.DBAccessor()
+
+    while True:
+        payments = findPayments("kegdke@gmail.com","phiyale1844")
+        for name in payments:
+            dbaccessor.getKerberos()
+
+
+
+if __name__ == '__main__':
+
+  try:
+    main()
+  except KeyboardInterrupt:
+    pass

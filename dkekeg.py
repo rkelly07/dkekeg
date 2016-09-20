@@ -12,13 +12,18 @@ from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2
 continue_reading = True
 current_uid = "0"
 
+def default_display():
+    lcd_string(" Natural Light ",LCD_LINE_1)
+    lcd_string("               ",LCD_LINE_2)
+
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
     global continue_reading
     print "Ctrl+C captured, ending read."
+    lcd_byte(0x01, LCD_CMD)
     continue_reading = False
     GPIO.cleanup()
-    DBAccessor.closeConnection()
+    dbaccessor.closeConnection()
 
 # Hook the SIGINT
 signal.signal(signal.SIGINT, end_read)
@@ -32,8 +37,7 @@ dbaccessor = DBAccessor.DBAccessor()
 print "Welcome to the MFRC522 data read example"
 print "Press Ctrl-C to stop."
 
-lcd_string(" Natural Light ",LCD_LINE_1)
-lcd_string("               ",LCD_LINE_2)
+
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -57,10 +61,10 @@ while continue_reading:
         if str_uid == current_uid:
             print "Logged Out"
             current_uid="0"
+            default_display()
             continue
         else:
             current_uid=str_uid
-            # Check Venmo for new payments here
             # login to the database
             currentName = dbaccessor.getName(current_uid)
             currentBalance = dbaccessor.getBalance(current_uid)
@@ -71,5 +75,5 @@ while continue_reading:
         # Print UID
         print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
 
-lcd_byte(0x01, LCD_CMD)
+
         
