@@ -1,16 +1,13 @@
 """
 DBAccessor Class for sqllite3 DKE Keg DB
 """
-import sqllite3
+import sqlite3
 
 class DBAccessor:
 
-	# TODO: Figure out db file name
-	DBNAME = ""
-
 	def __init__(self):
-		self.conn = sqllite3.connect(DBNAME)
-		self.c = conn.cursor()
+		self.conn = sqlite3.connect("dkekeg")
+		self.c = self.conn.cursor()
 
 
 	"""
