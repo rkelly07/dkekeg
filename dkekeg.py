@@ -7,6 +7,7 @@ import signal
 import DBAccessor
 import Login 
 from Login import findPayments
+import lcd_i2c
 
 continue_reading = True
 current_uid = "0"
@@ -30,6 +31,9 @@ DBAccessor = DBAccessor()
 # Welcome message
 print "Welcome to the MFRC522 data read example"
 print "Press Ctrl-C to stop."
+
+lcd_string("RPiSpy         <",LCD_LINE_1)
+lcd_string("I2C LCD        <",LCD_LINE_2)
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -72,4 +76,6 @@ while continue_reading:
 
         # Print UID
         print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+
+lcd_byte(0x01, LCD_CMD)
         
