@@ -61,12 +61,6 @@ while continue_reading:
         else:
             current_uid=str_uid
             # Check Venmo for new payments here
-            """
-
-            TODO MIKE
-
-            """
-            balances = findPayments("kegdke@gmail.com", "phiyale1844")
             # login to the database
             currentName = dbaccessor.getName(current_uid)
             currentBalance = dbaccessor.getBalance(current_uid)

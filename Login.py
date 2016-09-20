@@ -27,7 +27,7 @@ def isKegEmail(email):
 
 
 def findPayments(username, password):
-
+    
     # Main Part, use Gmail to find venmo balances
     file = open('recent.txt', 'r')
     most_recent = file.read()
@@ -102,4 +102,5 @@ def findPayments(username, password):
 
     #Logout of email so next check uses a refreshed inbox
     g.logout()
+#Implement Main file to run this funciton
     
