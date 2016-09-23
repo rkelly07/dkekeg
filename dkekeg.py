@@ -11,9 +11,13 @@ from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2, LCD_CMD
 
 continue_reading = True
 current_uid = "0"
-
+current_name = "THOMAS LYNN"
+current_balance = 0.0
+# Keep beers dranken in a file
+# beer_percentage = 165 - beers dranken/165 *100 
 def default_display():
     lcd_string(" Natural Light ",LCD_LINE_1)
+    #display beer percentage
     lcd_string("               ",LCD_LINE_2)
 
 # Capture SIGINT for cleanup when the script is aborted
@@ -33,11 +37,6 @@ MIFAREReader = MFRC522.MFRC522()
 
 dbaccessor = DBAccessor.DBAccessor()
 default_display()
-# Welcome message
-print "Welcome to the MFRC522 data read example"
-print "Press Ctrl-C to stop."
-
-
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -66,14 +65,16 @@ while continue_reading:
         else:
             current_uid=str_uid
             # login to the database
-            currentName = dbaccessor.getName(current_uid)
-            currentBalance = dbaccessor.getBalance(current_uid)
-            # TODO MAISEL CODE
+            current_name = dbaccessor.getName(current_uid)
+            current_balance = dbaccessor.getBalance(current_uid)
+            #display name and balance on screen
+            lcd_string(current_name,LCD_LINE_1)
+            lcd_string(str(current_balance),LCD_LINE_2)
+    
+    # TODO MAISEL CODE
+    # If balance is above 0 - > open the valve - > maybe a global variable?
 
-
-
-        # Print UID
-        print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+    # How do we incorporate the code for subtracting from the balance once the button is hit?
 
 
         

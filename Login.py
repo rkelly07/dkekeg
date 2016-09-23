@@ -107,16 +107,18 @@ def findPayments(username, password):
 
 def main():
     dbaccessor = DBAccessor.DBAccessor()
-
     while True:
         payments = findPayments("kegdke@gmail.com","phiyale1844")
         for name in payments:
-            dbaccessor.getKerberos()
+            kerberos = dbaccessor.getKerberos(name)
+            current_balance = dbaccessor.getBalance(kerberos)
+            new_balance = current_balance + name[payments]
+            dbaccessor.updateBalance(kerberos, new_balance)
+        time.sleep(30)
 
 
 
 if __name__ == '__main__':
-
   try:
     main()
   except KeyboardInterrupt:
