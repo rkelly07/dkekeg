@@ -7,7 +7,7 @@ import signal
 import DBAccessor
 import Login 
 from Login import findPayments
-from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2
+from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2, LCD_CMD
 
 continue_reading = True
 current_uid = "0"
@@ -32,7 +32,7 @@ signal.signal(signal.SIGINT, end_read)
 MIFAREReader = MFRC522.MFRC522()
 
 dbaccessor = DBAccessor.DBAccessor()
-
+default_display()
 # Welcome message
 print "Welcome to the MFRC522 data read example"
 print "Press Ctrl-C to stop."
