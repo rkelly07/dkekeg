@@ -15,7 +15,7 @@ class DBAccessor:
 	@param kerberos string kerberos ID
 	"""
 	def getBalance(self, kerberos):
-		t = (kerberos)
+		t = (kerberos,)
 		balance_statement = "SELECT balance FROM BROTHERS WHERE id=?"
 		self.c.execute(balance_statement,t)
 		current_balance = self.c.fetchone()
@@ -26,7 +26,7 @@ class DBAccessor:
 	@param kerberos string kerberos ID
 	"""
 	def getName(self, kerberos):
-		t = (kerberos)
+		t = (kerberos,)
 		name_statement = "SELECT name FROM BROTHERS WHERE id=?"
 		self.c.execute(name_statement,t)
 		name = self.c.fetchone()
@@ -49,7 +49,7 @@ class DBAccessor:
 	@return string kerberos
 	"""
 	def getKerberos(self, name):
-		t = (name)
+		t = (name,)
 		name_statement = "SELECT id FROM BROTHERS WHERE name=?"
 		self.c.execute(name_statement,t)
 		kerberos = self.c.fetchone()

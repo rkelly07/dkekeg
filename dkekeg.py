@@ -65,8 +65,8 @@ while continue_reading:
         else:
             current_uid=str_uid
             # login to the database
-            current_name = dbaccessor.getName(current_uid)
-            current_balance = dbaccessor.getBalance(current_uid)
+            current_name = dbaccessor.getName(current_uid)[0]
+            current_balance = dbaccessor.getBalance(current_uid)[0]
             #display name and balance on screen
             lcd_string(current_name,LCD_LINE_1)
             lcd_string(str(current_balance),LCD_LINE_2)
