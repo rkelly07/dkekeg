@@ -13,6 +13,13 @@ continue_reading = True
 current_uid = "0"
 current_name = "THOMAS LYNN"
 current_balance = 0.0
+login_counter = 0
+VALVE_OUT = 21
+BUTTON_IN = 69
+DELTA_BALANCE = 69
+LOGIN_COUNTER_START = 69
+SAFET_COUNTER_START = 69
+beer_counter = 69
 # Keep beers dranken in a file
 # beer_percentage = 165 - beers dranken/165 *100 
 def default_display():
@@ -29,6 +36,13 @@ def end_read(signal,frame):
     GPIO.cleanup()
     dbaccessor.closeConnection()
 
+def logout():
+    print "Logged Out"
+    current_uid="0"
+    current_balance = 0.0
+    current_name = "THOMAS LYNN"
+    default_display()
+
 # Hook the SIGINT
 signal.signal(signal.SIGINT, end_read)
 
@@ -41,6 +55,9 @@ default_display()
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
     
+    if login_counter == 0 or safety_counter == 0:
+        logout()
+
     # Scan for cards    
     (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
@@ -58,9 +75,7 @@ while continue_reading:
         lcd_string(str_uid,LCD_LINE_2)
         #if user is already logged in, log them out 
         if str_uid == current_uid:
-            print "Logged Out"
-            current_uid="0"
-            default_display()
+            logout()
             continue
         else:
             current_uid=str_uid
@@ -70,11 +85,29 @@ while continue_reading:
             #display name and balance on screen
             lcd_string(current_name,LCD_LINE_1)
             lcd_string(str(current_balance),LCD_LINE_2)
+            login_counter = LOGIN_COUNTER_START
+            safety_counter = SAFET_COUNTER_START
     
-    # TODO MAISEL CODE
-    # If balance is above 0 - > open the valve - > maybe a global variable?
-
-    # How do we incorporate the code for subtracting from the balance once the button is hit?
+    if current_balance > 0:
+        GPIO.output(VALVE_OUT,True)
+        while GPIO.input(BUTTON_IN):
+            if current_balance <=0:
+                GPIO.output(VALVE_OUT,False)
+                break
+            time.sleep(.5)
+            current_balance -= DELTA_BALANCE
+            lcd_string(str(current_balance),LCD_LINE_2)
+            login_counter = LOGIN_COUNTER_START
+            safety_counter -= 1
+            beer_counter -= 1
+        dbaccessor.updateBalance(current_uid,current_balance)
+        time.sleep(.5)
+        safety_counter -= 1
+        login_counter -= 1
+    else:
+        GPIO.output(VALVE_OUT,False)
+        time.sleep(.5)
+        login_counter -= 1
 
 
         
