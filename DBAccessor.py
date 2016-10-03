@@ -6,7 +6,7 @@ import sqlite3
 class DBAccessor:
 
 	def __init__(self):
-		self.conn = sqlite3.connect("dkekeg")
+		self.conn = sqlite3.connect("dkekeg.db")
 		self.c = self.conn.cursor()
 
 
