@@ -112,6 +112,7 @@ while continue_reading:
             login_counter = LOGIN_COUNTER_START
             safety_counter -= 1
             beer_counter -= 1
+        VALVE_OUT_VALUE = False
         dbaccessor.updateBalance(current_uid,current_balance)
         time.sleep(.5)
         safety_counter -= 1
