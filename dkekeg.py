@@ -49,6 +49,7 @@ def logout():
     global current_name
     global VALVE_OUT_VALUE
     VALVE_OUT_VALUE = False
+    GPIO.output(VALVE_OUT,VALVE_OUT_VALUE)
     current_uid="0"
     current_balance = 0.0
     current_name = "THOMAS LYNN"
@@ -115,6 +116,7 @@ while continue_reading:
             safety_counter -= 1
             beer_counter -= 1
         VALVE_OUT_VALUE = False
+        GPIO.output(VALVE_OUT,VALVE_OUT_VALUE)
         dbaccessor.updateBalance(current_uid,current_balance)
         time.sleep(.5)
         safety_counter -= 1
