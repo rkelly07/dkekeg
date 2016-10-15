@@ -99,10 +99,12 @@ while continue_reading:
             safety_counter = SAFETY_COUNTER_START
     
     if current_balance > 0:
-        GPIO.output(VALVE_OUT,True)
+        VALVE_OUT_VALUE=True
         while GPIO.input(BUTTON_IN):
+            GPIO.output(VALVE_OUT,VALVE_OUT_VALUE)
             if current_balance <=0:
-                GPIO.output(VALVE_OUT,False)
+                VALVE_OUT_VALUE = False
+                GPIO.output(VALVE_OUT,VALVE_OUT_VALUE)
                 break
             time.sleep(.5)
             current_balance -= DELTA_BALANCE
@@ -115,7 +117,7 @@ while continue_reading:
         safety_counter -= 1
         login_counter -= 1
     else:
-        GPIO.output(VALVE_OUT,False)
+        VALVE_OUT_VALUE = False
         time.sleep(.5)
         login_counter -= 1
 
