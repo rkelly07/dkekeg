@@ -5,21 +5,26 @@ import RPi.GPIO as GPIO
 import MFRC522
 import signal
 import DBAccessor
-import Login 
+import Login
+import time 
 from Login import findPayments
 from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2, LCD_CMD
 
+GPIO.setmode(GPIO.BOARD)
 continue_reading = True
 current_uid = "0"
 current_name = "THOMAS LYNN"
 current_balance = 0.0
-login_counter = 0
-VALVE_OUT = 21
-BUTTON_IN = 69
-DELTA_BALANCE = 69
+login_counter = 69
+safety_counter = 69
+VALVE_OUT = 15
+BUTTON_IN = 16
+DELTA_BALANCE = .69
 LOGIN_COUNTER_START = 69
-SAFET_COUNTER_START = 69
+SAFETY_COUNTER_START = 69
 beer_counter = 69
+GPIO.setup(VALVE_OUT,GPIO.OUT)
+GPIO.setup(BUTTON_IN,GPIO.IN)
 # Keep beers dranken in a file
 # beer_percentage = 165 - beers dranken/165 *100 
 def default_display():
@@ -38,6 +43,9 @@ def end_read(signal,frame):
 
 def logout():
     print "Logged Out"
+    global current_uid
+    global current_balance
+    global current_name
     current_uid="0"
     current_balance = 0.0
     current_name = "THOMAS LYNN"
@@ -55,8 +63,9 @@ default_display()
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
     
-    if login_counter == 0 or safety_counter == 0:
+    if (login_counter == 0 or safety_counter == 0) and current_name!="THOMAS LYNN":
         logout()
+	continue
 
     # Scan for cards    
     (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
@@ -72,7 +81,7 @@ while continue_reading:
     if status == MIFAREReader.MI_OK:
         #convert uid to standard string representation
         str_uid = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
-        lcd_string(str_uid,LCD_LINE_2)
+        #lcd_string(str_uid,LCD_LINE_2)
         #if user is already logged in, log them out 
         if str_uid == current_uid:
             logout()
@@ -86,7 +95,7 @@ while continue_reading:
             lcd_string(current_name,LCD_LINE_1)
             lcd_string(str(current_balance),LCD_LINE_2)
             login_counter = LOGIN_COUNTER_START
-            safety_counter = SAFET_COUNTER_START
+            safety_counter = SAFETY_COUNTER_START
     
     if current_balance > 0:
         GPIO.output(VALVE_OUT,True)
