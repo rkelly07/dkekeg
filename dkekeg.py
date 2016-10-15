@@ -47,6 +47,8 @@ def logout():
     global current_uid
     global current_balance
     global current_name
+    global VALVE_OUT_VALUE
+    VALVE_OUT_VALUE = False
     current_uid="0"
     current_balance = 0.0
     current_name = "THOMAS LYNN"
