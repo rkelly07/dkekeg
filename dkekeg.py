@@ -8,7 +8,7 @@ import DBAccessor
 import Login
 import time 
 from Login import findPayments
-from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2, LCD_CMD
+from lcd_i2c import lcd_string, lcd_byte, LCD_LINE_1, LCD_LINE_2, LCD_CMD, lcd_init
 
 GPIO.setmode(GPIO.BOARD)
 continue_reading = True
@@ -18,6 +18,7 @@ current_balance = 0.0
 login_counter = 69
 safety_counter = 69
 VALVE_OUT = 15
+VALVE_OUT_VALUE = False
 BUTTON_IN = 16
 DELTA_BALANCE = .69
 LOGIN_COUNTER_START = 69
@@ -25,6 +26,7 @@ SAFETY_COUNTER_START = 69
 beer_counter = 69
 GPIO.setup(VALVE_OUT,GPIO.OUT)
 GPIO.setup(BUTTON_IN,GPIO.IN)
+lcd_init()
 # Keep beers dranken in a file
 # beer_percentage = 165 - beers dranken/165 *100 
 def default_display():
@@ -98,10 +100,12 @@ while continue_reading:
             safety_counter = SAFETY_COUNTER_START
     
     if current_balance > 0:
-        GPIO.output(VALVE_OUT,True)
+        VALVE_OUT_VALUE = True
         while GPIO.input(BUTTON_IN):
+            GPIO.output(VALVE_OUT,VALVE_OUT_VALUE)
             if current_balance <=0:
-                GPIO.output(VALVE_OUT,False)
+                VALVE_OUT_VALUE = False
+                GPIO.output(VALVE_OUT,VALVE_OUT_VALUE)
                 break
             time.sleep(.5)
             current_balance -= DELTA_BALANCE
