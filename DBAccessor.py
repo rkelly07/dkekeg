@@ -57,7 +57,7 @@ class DBAccessor:
 
 	def addUser(self, name, kerberos):
 		t = (name,kerberos,0.0)
-		insert_statement = "INSERT INTO BROTHERS (name, id, balance) VALUES ?"
+		insert_statement = "INSERT INTO BROTHERS (name, id, balance) VALUES (?,?,?)"
 		self.c.execute(insert_statement,t)
 		self.conn.commit()
 

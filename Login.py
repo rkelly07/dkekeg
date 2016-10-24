@@ -112,9 +112,9 @@ def main():
         for name in payments:
             kerberos = dbaccessor.getKerberos(name)
             current_balance = dbaccessor.getBalance(kerberos)
-            new_balance = current_balance + name[payments]
+            new_balance = current_balance + payments[name]
             dbaccessor.updateBalance(kerberos, new_balance)
-        time.sleep(30)
+        time.sleep(15)
 
 
 
