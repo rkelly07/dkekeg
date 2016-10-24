@@ -62,6 +62,7 @@ class DBAccessor:
 		try:
 			self.c.execute(name_statement,t)
 			kerberos = self.c.fetchone()
+			print kerberos
 			return kerberos
 		except:
 			return "User is not in Database"
