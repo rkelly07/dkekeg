@@ -59,7 +59,6 @@ class DBAccessor:
 	def getKerberos(self, name):
 		t = (name,)
 		name_statement = "SELECT id FROM BROTHERS WHERE name=?"
-		print name
 		try:
 			self.c.execute(name_statement,t)
 			kerberos = self.c.fetchone()[0]
