@@ -109,12 +109,11 @@ def main():
     dbaccessor = DBAccessor.DBAccessor()
     while True:
         payments = findPayments("kegdke@gmail.com","phiyale1844")
-        print payments
         for name in payments:
             kerberos = dbaccessor.getKerberos(name)
-            print kerberos
+            if kerberos == None:
+                continue
             current_balance = dbaccessor.getBalance(kerberos)
-            print kerberos
             new_balance = current_balance + payments[name]
             dbaccessor.updateBalance(kerberos, new_balance)
         time.sleep(15)

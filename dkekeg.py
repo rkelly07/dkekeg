@@ -22,7 +22,7 @@ BUTTON_IN = 16
 DELTA_BALANCE = .01
 LOGIN_COUNTER_START = 69
 SAFETY_COUNTER_START = 69
-beer_counter = 69
+beer_counter = 
 GPIO.setup(VALVE_OUT,GPIO.OUT)
 GPIO.setup(BUTTON_IN,GPIO.IN)
 lcd_init()
@@ -84,7 +84,7 @@ while continue_reading:
     # If we have the UID, continue
     if status == MIFAREReader.MI_OK:
         #convert uid to standard string representation
-        str_uid = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+        str_uid = str(uid[0])+" "+str(uid[1])+" "+str(uid[2])+" "+str(uid[3])
         #lcd_string(str_uid,LCD_LINE_2)
         #if user is already logged in, log them out 
         if str_uid == current_uid:

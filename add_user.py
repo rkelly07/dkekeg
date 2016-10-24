@@ -31,7 +31,7 @@ while continue_reading:
         print "Card detected"
     (status,uid) = MIFAREReader.MFRC522_Anticoll()
     if status == MIFAREReader.MI_OK:
-        kerberos = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+        kerberos = str(uid[0])+" "+str(uid[1])+" "+str(uid[2])+" "+str(uid[3])
         name = raw_input("Enter the name associated with your venmo account: ")
         DBAccessor.addUser(name,kerberos)
         break
