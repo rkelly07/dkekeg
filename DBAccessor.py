@@ -18,7 +18,7 @@ class DBAccessor:
 		balance_statement = "SELECT balance FROM BROTHERS WHERE id=?"
 		try:
 			self.c.execute(balance_statement,t)
-			current_balance = self.c.fetchone()
+			current_balance = self.c.fetchone()[0]
 			return current_balance
 		except:
 			return 0.0
@@ -32,7 +32,7 @@ class DBAccessor:
 		name_statement = "SELECT name FROM BROTHERS WHERE id=?"
 		try:
 			self.c.execute(name_statement,t)
-			name = self.c.fetchone()
+			name = self.c.fetchone()[0]
 			return name
 		except:
 			return "User is not in database"
@@ -62,8 +62,7 @@ class DBAccessor:
 		print name
 		try:
 			self.c.execute(name_statement,t)
-			kerberos = self.c.fetchone()
-			print kerberos
+			kerberos = self.c.fetchone()[0]
 			return kerberos
 		except:
 			return "User is not in Database"
