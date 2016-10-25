@@ -110,6 +110,7 @@ def main():
     while True:
         payments = findPayments("kegdke@gmail.com","phiyale1844")
         for name in payments:
+            print name + "paid"
             kerberos = dbaccessor.getKerberos(name)
             if kerberos == None:
                 continue
