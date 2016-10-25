@@ -46,7 +46,7 @@ def findPayments(username, password):
 
 
     '''
-    benefits_on = True
+    benefits_on = False
     g = Gmail()
     g.login(username, password)
     newMail = g.inbox().mail(fr="venmo@venmo.com")
