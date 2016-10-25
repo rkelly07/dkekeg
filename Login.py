@@ -50,7 +50,7 @@ def findPayments(username, password):
     g = Gmail()
     g.login(username, password)
     newMail = g.inbox().mail(fr="venmo@venmo.com")
-
+    print "got mail"
     #Filter venmo emails that are payments emails from venmo
     payments = filterPayments(newMail)
 
