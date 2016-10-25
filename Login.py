@@ -53,7 +53,7 @@ def findPayments(username, password):
     payments = g.inbox().mail(fr="venmo@venmo.com")
     print "got mail"
     #Filter venmo emails that are payments emails from venmo
-    filterPayments(payments)
+    payments[:] = [x for x in payments if "paid" in x.subject]
     print "filtered"
     #Can use this part to implement only most recent email checking, Note: use email.sent_at to get the emails timestamp.
     #for i in pay:
