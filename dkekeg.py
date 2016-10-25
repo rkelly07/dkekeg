@@ -22,14 +22,14 @@ BUTTON_IN = 16
 DELTA_BALANCE = .01
 LOGIN_COUNTER_START = 69
 SAFETY_COUNTER_START = 69
-beer_counter = 
+beer_counter = 0
 GPIO.setup(VALVE_OUT,GPIO.OUT)
 GPIO.setup(BUTTON_IN,GPIO.IN)
 lcd_init()
 # Keep beers dranken in a file
 # beer_percentage = 165 - beers dranken/165 *100 
 def default_display():
-    lcd_string(" Natural Light ",LCD_LINE_1)
+    lcd_string(" Michelob Ultra ",LCD_LINE_1)
     #display beer percentage
     lcd_string("               ",LCD_LINE_2)
 
