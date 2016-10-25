@@ -46,7 +46,7 @@ def findPayments(username, password):
 
 
     '''
-    benefits_on = False
+    benefits_on = True
     g = Gmail()
     g.login(username, password)
     newMail = g.inbox().mail(fr="venmo@venmo.com")
@@ -110,14 +110,14 @@ def main():
     while True:
         payments = findPayments("kegdke@gmail.com","phiyale1844")
         for name in payments:
-            print name + "paid"
+            print name + " paid"
             kerberos = dbaccessor.getKerberos(name)
             if kerberos == None:
                 continue
             current_balance = dbaccessor.getBalance(kerberos)
             new_balance = current_balance + payments[name]
             dbaccessor.updateBalance(kerberos, new_balance)
-        time.sleep(15)
+        
 
 
 
