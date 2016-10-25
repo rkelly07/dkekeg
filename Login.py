@@ -53,7 +53,7 @@ def findPayments(username, password):
     print "got mail"
     #Filter venmo emails that are payments emails from venmo
     payments = filterPayments(newMail)
-
+    print "filtered"
     #Can use this part to implement only most recent email checking, Note: use email.sent_at to get the emails timestamp.
     #for i in pay:
         #if i.sent_at >= then:
@@ -65,13 +65,16 @@ def findPayments(username, password):
         #Check if the ID number of the email has already been checked
         #as this prevents checking emails twice and incorrectly calculating balances
         if payments[i].uid not in IDs:
+            print "Test 1"
             #Check if email is a payment to DKE Keg 
             if isKegEmail(payments[i]) and int(payments[i].uid) >= int(most_recent)+1:
-
+                print "Test 2"
                 #Seperate out the subject of the email to find Name and Amount that was paid 
                 IDs.append(payments[i].uid) 
                 payments[i].fetch()
+                print "Fetched"
                 message =  payments[i].subject
+                print "subject"
                 name = message.split(" p")[0]
                 if len(message.split("$")[1]) >= 10:
                     amount = float(message.split("$")[1].split(" ")[0])
