@@ -10,13 +10,12 @@ from gmail import Gmail
 def filterPayments(emails):
     i = 0
     filtered = []
-    emails[:] = [x for x in emails if "paid" in x.subject]
-    """while i < len(emails):
+    while i < len(emails):
         emails[i].fetch()
-        if "paid" not in emails[i].subject:
+        if "paid" in emails[i].subject:
             filtered.append(emails[i])
-        i+=1"""
-    
+        i+=1
+    return filtered
 
 #Check if email from venmo is for DKE Keg and not mdelaus (depending on which email we use might not need this)
 def isKegEmail(email):
@@ -50,11 +49,10 @@ def findPayments(username, password):
     benefits_on = False
     g = Gmail()
     g.login(username, password)
-    payments = g.inbox().mail(fr="venmo@venmo.com")
+    newMail = g.inbox().mail(fr="venmo@venmo.com")
     print "got mail"
     #Filter venmo emails that are payments emails from venmo
-    print payments
-    payments[:] = [x for x in payments if "paid" in x.subject]
+    payments = filterPayments(newMail)
     print "filtered"
     #Can use this part to implement only most recent email checking, Note: use email.sent_at to get the emails timestamp.
     #for i in pay:
